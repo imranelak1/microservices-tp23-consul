@@ -1,0 +1,20 @@
+[
+  {
+    "file": "gateway\\src\\main\\resources\\application.yml",
+    "root_keys": [
+      "server",
+      "spring",
+      "management"
+    ],
+    "valid": true
+  },
+  {
+    "file": "service-client\\src\\main\\resources\\application.yml",
+    "root_keys": [
+      "server",
+      "spring",
+      "management"
+    ],
+    "valid": true
+  }
+]
