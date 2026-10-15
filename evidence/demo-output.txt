@@ -1,0 +1,19 @@
+GET http://host.docker.internal:18823/SERVICE-CLIENT/api/client
+HTTP 200
+[
+  {
+    "id": 1,
+    "nom": "Rabab SELIMANI",
+    "age": 23.0
+  },
+  {
+    "id": 2,
+    "nom": "Amal RAMI",
+    "age": 22.0
+  },
+  {
+    "id": 3,
+    "nom": "Samir SAFI",
+    "age": 22.0
+  }
+]

@@ -1,0 +1,6 @@
+GET http://host.docker.internal:18523/v1/health/service/SERVICE-CLIENT?passing=true
+HTTP 200
+Consul : 1 instance(s) SERVICE-CLIENT passing
+GET http://host.docker.internal:18823/SERVICE-CLIENT/api/client
+HTTP 200
+Toutes les assertions du scénario sont passées.

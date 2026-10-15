@@ -1,0 +1,99 @@
+name: course7-consul-migration
+services:
+  consul:
+    command:
+      - agent
+      - -dev
+      - -client=0.0.0.0
+    healthcheck:
+      test:
+        - CMD
+        - consul
+        - members
+      timeout: 3s
+      interval: 5s
+      retries: 20
+    image: hashicorp/consul:1.20.6
+    mem_limit: "134217728"
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 8500
+        published: "18523"
+        protocol: tcp
+  gateway:
+    build:
+      context: C:\Users\imrane\Desktop\lachguer\microservices-tp23-consul\gateway
+      dockerfile: Dockerfile
+    depends_on:
+      consul:
+        condition: service_healthy
+        required: true
+    environment:
+      CONSUL_HOST: consul
+      SERVER_PORT: "8888"
+      SERVICE_IP: gateway
+    mem_limit: "335544320"
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 8888
+        published: "18823"
+        protocol: tcp
+  mysql:
+    command:
+      - --innodb-buffer-pool-size=64M
+      - --max-connections=60
+      - --performance-schema=OFF
+    environment:
+      MYSQL_DATABASE: Micro_ClientDB
+      MYSQL_ROOT_PASSWORD: labpass
+    healthcheck:
+      test:
+        - CMD
+        - mysqladmin
+        - ping
+        - -h
+        - localhost
+        - -plabpass
+      timeout: 3s
+      interval: 5s
+      retries: 30
+    image: mysql:8.4.0
+    mem_limit: "402653184"
+    networks:
+      default: null
+  service-client:
+    build:
+      context: C:\Users\imrane\Desktop\lachguer\microservices-tp23-consul\service-client
+      dockerfile: Dockerfile
+    depends_on:
+      consul:
+        condition: service_healthy
+        required: true
+      mysql:
+        condition: service_healthy
+        required: true
+    environment:
+      CONSUL_HOST: consul
+      DB_PASSWORD: labpass
+      DB_URL: jdbc:mysql://mysql:3306/Micro_ClientDB?allowPublicKeyRetrieval=true&useSSL=false
+      DB_USER: root
+      SERVER_PORT: "8088"
+      SERVICE_IP: service-client
+    mem_limit: "402653184"
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 8088
+        published: "18023"
+        protocol: tcp
+networks:
+  default:
+    name: course7-consul-migration_default

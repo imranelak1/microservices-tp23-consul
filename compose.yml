@@ -1,0 +1,48 @@
+name: course7-consul-migration
+services:
+  consul:
+    mem_limit: 128m
+    image: hashicorp/consul:1.20.6
+    command: agent -dev -client=0.0.0.0
+    ports: ["127.0.0.1:18523:8500"]
+    healthcheck:
+      test: ["CMD", "consul", "members"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  mysql:
+    mem_limit: 384m
+    command: ["--innodb-buffer-pool-size=64M", "--max-connections=60", "--performance-schema=OFF"]
+    image: mysql:8.4.0
+    environment:
+      MYSQL_ROOT_PASSWORD: labpass
+      MYSQL_DATABASE: Micro_ClientDB
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-plabpass"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+  service-client:
+    mem_limit: 384m
+    build: ./service-client
+    environment:
+      SERVER_PORT: 8088
+      CONSUL_HOST: consul
+      SERVICE_IP: service-client
+      DB_URL: jdbc:mysql://mysql:3306/Micro_ClientDB?allowPublicKeyRetrieval=true&useSSL=false
+      DB_USER: root
+      DB_PASSWORD: labpass
+    ports: ["127.0.0.1:18023:8088"]
+    depends_on:
+      consul: {condition: service_healthy}
+      mysql: {condition: service_healthy}
+  gateway:
+    mem_limit: 320m
+    build: ./gateway
+    environment:
+      SERVER_PORT: 8888
+      CONSUL_HOST: consul
+      SERVICE_IP: gateway
+    ports: ["127.0.0.1:18823:8888"]
+    depends_on:
+      consul: {condition: service_healthy}

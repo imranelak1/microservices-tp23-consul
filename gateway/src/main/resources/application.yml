@@ -1,0 +1,26 @@
+server:
+  port: ${SERVER_PORT:8888}
+spring:
+  application:
+    name: SERVICE-GATEWAY
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: false
+    consul:
+      host: ${CONSUL_HOST:localhost}
+      port: ${CONSUL_PORT:8500}
+      discovery:
+        prefer-ip-address: true
+        ip-address: ${SERVICE_IP:127.0.0.1}
+        health-check-interval: 5s
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+  endpoint:
+    gateway:
+      enabled: true

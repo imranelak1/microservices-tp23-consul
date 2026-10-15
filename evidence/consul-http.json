@@ -1,0 +1,120 @@
+[
+  {
+    "url": "http://localhost:18523/v1/catalog/services",
+    "status": 200,
+    "response": {
+      "SERVICE-CLIENT": [],
+      "SERVICE-GATEWAY": [],
+      "consul": []
+    }
+  },
+  {
+    "url": "http://localhost:18523/v1/health/service/SERVICE-CLIENT?passing=true",
+    "status": 200,
+    "response": [
+      {
+        "Node": {
+          "ID": "435f2f47-f120-2dd0-cc34-79f955a22fee",
+          "Node": "bb8a7dfd0e1c",
+          "Address": "127.0.0.1",
+          "Datacenter": "dc1",
+          "TaggedAddresses": {
+            "lan": "127.0.0.1",
+            "lan_ipv4": "127.0.0.1",
+            "wan": "127.0.0.1",
+            "wan_ipv4": "127.0.0.1"
+          },
+          "Meta": {
+            "consul-network-segment": "",
+            "consul-version": "1.20.6"
+          },
+          "CreateIndex": 5,
+          "ModifyIndex": 5
+        },
+        "Service": {
+          "ID": "SERVICE-CLIENT-8088",
+          "Service": "SERVICE-CLIENT",
+          "Tags": [],
+          "Address": "service-client",
+          "Meta": {
+            "secure": "false"
+          },
+          "Port": 8088,
+          "Weights": {
+            "Passing": 1,
+            "Warning": 1
+          },
+          "EnableTagOverride": false,
+          "Proxy": {
+            "Mode": "",
+            "MeshGateway": {},
+            "Expose": {}
+          },
+          "Connect": {},
+          "PeerName": "",
+          "CreateIndex": 25,
+          "ModifyIndex": 25
+        },
+        "Checks": [
+          {
+            "Node": "bb8a7dfd0e1c",
+            "CheckID": "serfHealth",
+            "Name": "Serf Health Status",
+            "Status": "passing",
+            "Notes": "",
+            "Output": "Agent alive and reachable",
+            "ServiceID": "",
+            "ServiceName": "",
+            "ServiceTags": [],
+            "Type": "",
+            "Interval": "",
+            "Timeout": "",
+            "ExposedPort": 0,
+            "Definition": {},
+            "CreateIndex": 14,
+            "ModifyIndex": 14
+          },
+          {
+            "Node": "bb8a7dfd0e1c",
+            "CheckID": "service:SERVICE-CLIENT-8088",
+            "Name": "Service 'SERVICE-CLIENT' check",
+            "Status": "passing",
+            "Notes": "",
+            "Output": "HTTP GET http://service-client:8088/actuator/health: 200  Output: {\"status\":\"UP\",\"components\":{\"consul\":{\"status\":\"UP\",\"details\":{\"leader\":\"127.0.0.1:8300\",\"services\":{\"SERVICE-CLIENT\":[],\"SERVICE-GATEWAY\":[],\"consul\":[]}}},\"db\":{\"status\":\"UP\",\"details\":{\"database\":\"MySQL\",\"validationQuery\":\"isValid()\"}},\"discoveryComposite\":{\"status\":\"UP\",\"components\":{\"discoveryClient\":{\"status\":\"UP\",\"details\":{\"services\":[\"SERVICE-CLIENT\",\"SERVICE-GATEWAY\",\"consul\"]}}}},\"diskSpace\":{\"status\":\"UP\",\"details\":{\"total\":1081101176832,\"free\":978922045440,\"threshold\":10485760,\"path\":\"/app/.\",\"exists\":true}},\"ping\":{\"status\":\"UP\"},\"refreshScope\":{\"status\":\"UP\"}}}",
+            "ServiceID": "SERVICE-CLIENT-8088",
+            "ServiceName": "SERVICE-CLIENT",
+            "ServiceTags": [],
+            "Type": "http",
+            "Interval": "5s",
+            "Timeout": "",
+            "ExposedPort": 0,
+            "Definition": {},
+            "CreateIndex": 25,
+            "ModifyIndex": 26
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "url": "http://localhost:18823/SERVICE-CLIENT/api/client",
+    "status": 200,
+    "response": [
+      {
+        "id": 1,
+        "nom": "Rabab SELIMANI",
+        "age": 23.0
+      },
+      {
+        "id": 2,
+        "nom": "Amal RAMI",
+        "age": 22.0
+      },
+      {
+        "id": 3,
+        "nom": "Samir SAFI",
+        "age": 22.0
+      }
+    ]
+  }
+]
